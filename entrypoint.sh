@@ -45,4 +45,4 @@ cat > /etc/v2ray/config.json << EOF
 EOF
 
 # 4. اجرای V2Ray
-/usr/bin/v2ray/v2ray -config /etc/v2ray/config.json
+/usr/bin/v2ray/v2ray run -config /etc/v2ray/config.json
