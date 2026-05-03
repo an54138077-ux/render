@@ -1,3 +1,4 @@
+
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -8,27 +9,29 @@ PORT_VAL="${PORT:-8080}"
 
 # Generate config to /etc/v2ray/config.json
 mkdir -p /etc/v2ray
-cat > /etc/v2ray/config.json <<EOF
+cat > /etc/v2ray/config.json << EOF
 {
-  "inbounds": [
-    {
-      "port": ${PORT_VAL},
-      "protocol": "vless",
-      "settings": {
-        "clients": [
-          { "id": "${UUID_VAL}" }
-        ],
-        "decryption": "none"
-      },
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": { "path": "${WSPATH_VAL}" }
+  "inbounds": [{
+    "port": ${PORT_VAL},
+    "protocol": "vless",
+    "settings": {
+      "clients": [
+        {"id": "${UUID_VAL}"}
+      ],
+      "decryption": "none"
+    },
+    "streamSettings": {
+      "network": "ws",
+      "wsSettings": {
+        "path": "${WSPATH_VAL}"
       }
     }
-  ],
-  "outbounds": [ { "protocol": "freedom" } ]
+  }],
+  "outbounds": [{
+    "protocol": "freedom"
+  }]
 }
 EOF
 
-# Start v2ray
-exec /usr/bin/v2ray run -c /etc/v2ray/config.json
+# Run v2ray
+/usr/bin/v2ray/v2ray -config /etc/v2ray/config.json
