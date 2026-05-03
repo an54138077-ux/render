@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# تنظیمات پیش‌فرض
+UUID_VAL="${UUID:-139256ab-37c7-412f-9e46-0d0495fefc9f}"
+WSPATH_VAL="${WSPATH:-/vless}"
+PORT_VAL="${PORT:-8080}"
+
+# ساخت پوشه و فایل کانفیگ
+mkdir -p /etc/v2ray
+cat > /etc/v2ray/config.json << EOF
+{
+  "inbounds": [{
+    "port": ${PORT_VAL},
+    "protocol": "vless",
+    "settings": {
+      "clients": [
+        {"id": "${UUID_VAL}"}
+      ],
+      "decryption": "none"
+    },
+    "streamSettings": {
+      "network": "ws",
+      "wsSettings": {
+        "path": "${WSPATH_VAL}"
+      }
+    }
+  }],
+  "outbounds": [{
+    "protocol": "freedom"
+  }]
+}
+EOF
+
+# اجرای v2ray
+/usr/bin/v2ray/v2ray -config /etc/v2ray/config.json
